@@ -1,5 +1,5 @@
-appId: com.bookmarkmanager.app
-productName: Bookmark Manager
+appId: com.beacon.app
+productName: Beacon
 directories:
   output: release
 files:

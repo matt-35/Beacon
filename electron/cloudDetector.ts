@@ -26,7 +26,7 @@ export async function detectCloudDrives(): Promise<CloudDriveSuggestion[]> {
         provider,
         label,
         path: resolved,
-        recommendedDataPath: path.join(resolved, 'BookmarkManager')
+        recommendedDataPath: path.join(resolved, 'Beacon')
       });
     }
   };

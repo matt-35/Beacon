@@ -1,4 +1,4 @@
-# Bookmark Manager
+# Beacon
 
 A standalone, cross-platform desktop bookmark manager (**macOS, Windows, Linux**) that syncs across devices by storing data in any folder you choose—such as **OneDrive, Google Drive, Dropbox, iCloud Drive, or Syncthing**. No proprietary cloud account or server required.
 

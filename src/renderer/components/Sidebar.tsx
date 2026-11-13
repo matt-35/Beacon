@@ -53,7 +53,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     <aside className="sidebar">
       <div className="sidebar-brand">
         <Bookmark size={18} color="var(--accent)" />
-        <span>Bookmark Manager</span>
+        <span>Beacon</span>
       </div>
 
       <button

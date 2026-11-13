@@ -447,7 +447,7 @@ function createWindow(): void {
     height: 780,
     minWidth: 880,
     minHeight: 580,
-    title: 'Bookmark Manager',
+    title: 'Beacon',
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,

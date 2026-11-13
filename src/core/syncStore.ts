@@ -77,7 +77,7 @@ export class SyncStore {
       const manifest: SyncManifest = {
         schemaVersion: 1,
         createdAt: new Date().toISOString(),
-        app: 'Bookmark Manager'
+        app: 'Beacon'
       };
       await writeFileAtomic(this.manifestPath, JSON.stringify(manifest, null, 2), this.deviceId);
     }

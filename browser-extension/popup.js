@@ -63,7 +63,7 @@ saveBtn.addEventListener('click', async () => {
       throw new Error(data.error || `HTTP ${res.status}`);
     }
 
-    statusEl.textContent = 'Saved to Bookmark Manager!';
+    statusEl.textContent = 'Saved to Beacon!';
     statusEl.className = 'status ok';
     setTimeout(() => window.close(), 900);
   } catch (err) {

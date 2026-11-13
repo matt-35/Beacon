@@ -47,7 +47,7 @@ describe('SyncStore', () => {
     const manifestRaw = await fs.readFile(path.join(tempDir, 'manifest.json'), 'utf-8');
     const manifest = JSON.parse(manifestRaw);
     expect(manifest.schemaVersion).toBe(1);
-    expect(manifest.app).toBe('Bookmark Manager');
+    expect(manifest.app).toBe('Beacon');
   });
 
   it('writes and loads bookmarks and folders atomically', async () => {

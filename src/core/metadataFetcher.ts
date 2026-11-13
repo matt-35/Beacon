@@ -54,7 +54,7 @@ export async function fetchPageHtml(url: string): Promise<string> {
     const res = await fetch(targetUrl, {
       signal: controller.signal,
       headers: {
-        'User-Agent': 'Mozilla/5.0 (compatible; BookmarkManager/1.0)',
+        'User-Agent': 'Mozilla/5.0 (compatible; Beacon/1.0)',
         Accept: 'text/html,application/xhtml+xml'
       }
     });
