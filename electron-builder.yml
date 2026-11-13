@@ -1,10 +1,12 @@
 appId: com.beacon.app
 productName: Beacon
+icon: build/icon.png
 directories:
   output: release
 files:
   - dist/**/*
   - dist-electron/**/*
+  - build/icon.png
   - package.json
 mac:
   category: public.app-category.productivity
