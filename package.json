@@ -1,6 +1,7 @@
 {
   "name": "beacon",
   "version": "0.1.0",
+  "license": "MIT",
   "author": "Beacon Contributors",
   "description": "Cross-platform standalone bookmark manager synced via your chosen cloud drive folder (OneDrive, Google Drive, Dropbox, iCloud, etc.)",
   "main": "dist-electron/electron/main.js",
