@@ -1,0 +1,40 @@
+{
+  "name": "bookmark-manager",
+  "version": "0.1.0",
+  "description": "Cross-platform standalone bookmark manager synced via your chosen cloud drive folder (OneDrive, Google Drive, Dropbox, iCloud, etc.)",
+  "main": "dist-electron/electron/main.js",
+  "scripts": {
+    "dev": "vite",
+    "dev:electron": "tsc -p tsconfig.electron.json && electron .",
+    "build": "tsc --noEmit && tsc -p tsconfig.electron.json && vite build",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "package:mac": "npm run build && electron-builder --mac",
+    "package:win": "npm run build && electron-builder --win",
+    "package:linux": "npm run build && electron-builder --linux"
+  },
+  "dependencies": {
+    "@mozilla/readability": "^0.6.0",
+    "chokidar": "^4.0.3",
+    "jsdom": "^26.1.0",
+    "lucide-react": "^0.511.0",
+    "minisearch": "^7.1.1",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "uuid": "^11.1.0"
+  },
+  "devDependencies": {
+    "@types/jsdom": "^21.1.7",
+    "@types/node": "^22.15.18",
+    "@types/react": "^19.1.4",
+    "@types/react-dom": "^19.1.5",
+    "@types/uuid": "^10.0.0",
+    "@vitejs/plugin-react": "^4.4.1",
+    "electron": "^36.2.1",
+    "electron-builder": "^26.0.12",
+    "typescript": "^5.8.3",
+    "vite": "^6.3.5",
+    "vitest": "^3.1.3"
+  }
+}
+
