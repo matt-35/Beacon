@@ -17,6 +17,8 @@ win:
   target:
     - nsis
 linux:
+  maintainer: Beacon Contributors <maintainers@beacon.local>
+  syncDesktopName: true
   target:
     - AppImage
     - deb
