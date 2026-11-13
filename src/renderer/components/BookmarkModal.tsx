@@ -97,7 +97,7 @@ export const BookmarkModal: React.FC<BookmarkModalProps> = ({
             <label>URL</label>
             <div style={{ display: 'flex', gap: 8 }}>
               <input
-                type="url"
+                type="text"
                 required
                 autoFocus
                 placeholder="https://example.com"

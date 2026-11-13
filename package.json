@@ -1,6 +1,7 @@
 {
   "name": "bookmark-manager",
   "version": "0.1.0",
+  "author": "Bookmark Manager Contributors",
   "description": "Cross-platform standalone bookmark manager synced via your chosen cloud drive folder (OneDrive, Google Drive, Dropbox, iCloud, etc.)",
   "main": "dist-electron/electron/main.js",
   "scripts": {

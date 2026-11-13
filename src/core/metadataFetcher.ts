@@ -3,6 +3,15 @@ import type { FetchedMetadata } from './types';
 
 const FETCH_TIMEOUT_MS = 8000;
 
+export function normalizeUrl(raw: string): string {
+  const trimmed = raw.trim();
+  if (!trimmed) return trimmed;
+  if (/^[a-zA-Z][a-zA-Z\d+\-.]*:\/\//.test(trimmed)) {
+    return trimmed;
+  }
+  return `https://${trimmed}`;
+}
+
 function pickMetaContent(doc: Document, selectors: string[]): string {
   for (const selector of selectors) {
     const el = doc.querySelector(selector);
@@ -38,10 +47,11 @@ function inferImageExt(contentType: string | null, url: string): string {
 }
 
 export async function fetchPageHtml(url: string): Promise<string> {
+  const targetUrl = normalizeUrl(url);
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
   try {
-    const res = await fetch(url, {
+    const res = await fetch(targetUrl, {
       signal: controller.signal,
       headers: {
         'User-Agent': 'Mozilla/5.0 (compatible; BookmarkManager/1.0)',
@@ -57,7 +67,8 @@ export async function fetchPageHtml(url: string): Promise<string> {
   }
 }
 
-export async function fetchMetadata(url: string, preloadedHtml?: string): Promise<FetchedMetadata> {
+export async function fetchMetadata(rawUrl: string, preloadedHtml?: string): Promise<FetchedMetadata> {
+  const url = normalizeUrl(rawUrl);
   const html = preloadedHtml ?? (await fetchPageHtml(url));
   const dom = new JSDOM(html, { url });
   const doc = dom.window.document;

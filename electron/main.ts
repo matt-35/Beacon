@@ -16,7 +16,7 @@ import { pathToFileURL } from 'node:url';
 import { v4 as uuidv4 } from 'uuid';
 import { SyncStore } from '../src/core/syncStore';
 import { SearchIndex } from '../src/core/searchIndex';
-import { fetchMetadata } from '../src/core/metadataFetcher';
+import { fetchMetadata, normalizeUrl } from '../src/core/metadataFetcher';
 import { archiveUrlSnapshot } from '../src/core/snapshotArchiver';
 import { parseNetscapeHtml, serializeNetscapeHtml } from '../src/core/htmlBookmarks';
 import type {
@@ -126,6 +126,7 @@ async function createBookmarkFromInput(input: BookmarkInput): Promise<BookmarkIt
     throw new Error('Sync directory is not configured');
   }
 
+  const normalizedUrl = normalizeUrl(input.url);
   const now = new Date().toISOString();
   const id = uuidv4();
   let title = input.title?.trim() || '';
@@ -135,7 +136,7 @@ async function createBookmarkFromInput(input: BookmarkInput): Promise<BookmarkIt
 
   if (input.fetchMetadata !== false) {
     try {
-      const meta = await fetchMetadata(input.url);
+      const meta = await fetchMetadata(normalizedUrl);
       if (!title) title = meta.title;
       if (!description) description = meta.description;
       thumbnailUrl = meta.thumbnailUrl;
@@ -149,16 +150,16 @@ async function createBookmarkFromInput(input: BookmarkInput): Promise<BookmarkIt
 
   if (!title) {
     try {
-      title = new URL(input.url).hostname;
+      title = new URL(normalizedUrl).hostname;
     } catch {
-      title = input.url;
+      title = normalizedUrl;
     }
   }
 
   let hasSnapshot = false;
   if (input.saveSnapshot) {
     try {
-      const snapshotHtml = await archiveUrlSnapshot(input.url);
+      const snapshotHtml = await archiveUrlSnapshot(normalizedUrl);
       await syncStore.saveSnapshot(id, snapshotHtml);
       hasSnapshot = true;
     } catch {
@@ -168,7 +169,7 @@ async function createBookmarkFromInput(input: BookmarkInput): Promise<BookmarkIt
 
   const item: BookmarkItem = {
     id,
-    url: input.url.trim(),
+    url: normalizedUrl,
     title,
     description,
     tags: Array.from(new Set((input.tags ?? []).map((t) => t.trim()).filter(Boolean))),
@@ -463,14 +464,20 @@ function createWindow(): void {
 }
 
 app.whenReady().then(async () => {
-  protocol.handle('bm-asset', (request) => {
+  protocol.handle('bm-asset', async (request) => {
     if (!syncStore) {
       return new Response('Not found', { status: 404 });
     }
     const url = new URL(request.url);
-    const fileName = path.basename(url.hostname || url.pathname);
+    const rawPath = url.pathname && url.pathname !== '/' ? url.pathname : url.hostname;
+    const fileName = path.basename(rawPath);
     const fullPath = syncStore.resolveAssetPath(fileName);
-    return net.fetch(pathToFileURL(fullPath).toString());
+    try {
+      await fs.access(fullPath);
+      return net.fetch(pathToFileURL(fullPath).toString());
+    } catch {
+      return new Response('Not found', { status: 404 });
+    }
   });
 
   await loadConfig();
